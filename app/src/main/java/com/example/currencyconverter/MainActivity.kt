@@ -1,9 +1,7 @@
 package com.example.currencyconverter
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
@@ -26,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var convertBtn: Button
     lateinit var amountET: TextInputEditText
     lateinit var resultET: TextInputEditText
+    lateinit var toolBar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +32,18 @@ class MainActivity : AppCompatActivity() {
 
         initializeViews()
         populateDropDownMenu()
+        toolBar.inflateMenu(R.menu.options_menu)
+        toolBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.share_action -> Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
+                R.id.settings_action -> Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+                R.id.contact_us_action -> Toast.makeText(this, "Contact Us", Toast.LENGTH_SHORT)
+                    .show()
+                else -> {}
+            }
+            true
+        }
+
         amountET.addTextChangedListener {
             calculateResult()
         }
@@ -57,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         resultET = findViewById(R.id.result_edit_text)
         fromDropDownMenu = findViewById(R.id.from_currency_menu)
         toDropDownMenu = findViewById(R.id.to_currency_menu)
+        toolBar = findViewById(R.id.toolbar)
     }
 
     private fun calculateResult() {
@@ -71,4 +83,18 @@ class MainActivity : AppCompatActivity() {
             amountET.error = getString(R.string.error)
         }
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//    menuInflater.inflate(R.menu.options_menu,menu)
+//        return true;
+//    }
+//
+//     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//         when(item.itemId){
+//             R.id.share_action-> Toast.makeText(this,"Share", Toast.LENGTH_SHORT).show()
+//             R.id.settings_action-> Toast.makeText(this,"Settings", Toast.LENGTH_SHORT).show()
+//             R.id.contact_us_action-> Toast.makeText(this,"Contact Us", Toast.LENGTH_SHORT).show()
+//         }
+//         return super.onOptionsItemSelected(item)
+//     }
 }
