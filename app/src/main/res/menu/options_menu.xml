@@ -7,10 +7,5 @@
         android:icon="@drawable/ic_share"
         app:showAsAction="ifRoom"
         />
-    <item
-        android:id="@+id/settings_action"
-        android:title="Settings" />
-    <item
-        android:id="@+id/contact_us_action"
-        android:title="Contact Us" />
+
 </menu>

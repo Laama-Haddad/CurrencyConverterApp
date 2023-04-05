@@ -1,5 +1,6 @@
 package com.example.currencyconverter
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -35,10 +36,21 @@ class MainActivity : AppCompatActivity() {
         toolBar.inflateMenu(R.menu.options_menu)
         toolBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.share_action -> Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
-                R.id.settings_action -> Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
-                R.id.contact_us_action -> Toast.makeText(this, "Contact Us", Toast.LENGTH_SHORT)
-                    .show()
+                R.id.share_action -> {
+                    val shareIntent = Intent(Intent.ACTION_SEND)
+                    shareIntent.type = "text/plain"
+                    val message =
+                        "${amountET.text.toString()} ${fromDropDownMenu.text}  " +
+                                "is equal to ${resultET.text.toString()} ${toDropDownMenu.text}"
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+                    if (shareIntent.resolveActivity(packageManager) != null) {
+                        startActivity(shareIntent)
+                    } else {
+                        Toast.makeText(
+                            this, "No Activity found to handle this intent", Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
                 else -> {}
             }
             true
